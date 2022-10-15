@@ -6,7 +6,7 @@ from typing import Dict
 
 from google.cloud import speech
 
-from backend.settings import GOOGLE_SERVICE_JSON_FILE
+from settings import GOOGLE_SERVICE_JSON_FILE
 
 clients = {}
 
@@ -126,6 +126,7 @@ class GoogleSpeechWrapper:
 
     @staticmethod
     async def start_listen(client_id: str):
+
         client = clients[client_id]
         speech_client = speech.SpeechClient.from_service_account_json(GOOGLE_SERVICE_JSON_FILE)
         config = speech.RecognitionConfig(encoding=GoogleSpeechWrapper.encoding_map[client.audio_config['encoding']], sample_rate_hertz=client.audio_config['sampleRateHertz'],
@@ -159,5 +160,5 @@ class GoogleSpeechWrapper:
     def receive_data(client_id: str, data):
         if client_id not in clients:
             return
-
+        print("OK")
         clients[client_id].add_data(data)
